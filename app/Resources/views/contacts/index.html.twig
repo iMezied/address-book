@@ -1,0 +1,165 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="wrapper">
+        <div id="container">
+            <h3>Contact list page</h3>
+            <div>
+                <a href="{{ path('create_contact') }}">+ Create a new Contact</a>
+            </div>
+            <hr>
+            <table width="100%">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Phone #</th>
+                    <th>Email</th>
+                    <th>BOD</th>
+                    <th>Actions</th>
+                </tr>
+                {% if contacts is not empty %}
+                    {% for contact in contacts %}
+                        <tr>
+                            <td>{{ contact.id }}</td>
+                            <td>{{ contact.firstName ~ ' ' ~ contact.lastName }}</td>
+                            <td>
+                                <ul>
+                                    <li>{{ contact.streetNumber }}</li>
+                                    <li>{{ contact.city }}</li>
+                                    <li>{{ contact.zip }}</li>
+                                    <li>{{ contact.country }}</li>
+                                </ul>
+                            </td>
+                            <td>{{ contact.phoneNumber }}</td>
+                            <td>{{ contact.email }}</td>
+                            <td>{{ contact.birthdate|date('Y-m-d') }}</td>
+                            <td>
+                                <a href="{{ path('delete_contact',{'id':contact.id}) }}" onclick="return confirm('Are you sure you want to delete this contact')">Delete</a>
+                                &nbsp;
+                                |
+                                &nbsp;
+                                <a href="{{ path('edit_contact',{'id':contact.id}) }}">Edit</a>
+
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="7">There is no contact details, add your first one</td>
+                    </tr>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        body {
+            background: #F5F5F5;
+            font: 14px/1.5 sans-serif;
+        }
+
+        h1, h2 {
+            line-height: 1.2;
+            margin: 0 0 .5em;
+        }
+
+        h1 {
+            font-size: 36px;
+        }
+
+        h2 {
+            font-size: 21px;
+            margin-bottom: 1em;
+        }
+
+        p {
+            margin: 0 0 1em 0;
+        }
+
+        a {
+            color: #0000F0;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+
+        code {
+            background: #F5F5F5;
+            max-width: 100px;
+            padding: 2px 6px;
+            word-wrap: break-word;
+        }
+
+        #wrapper {
+            background: #FFF;
+            margin: 1em auto;
+            width: 95%;
+        }
+
+        #container {
+            padding: 2em;
+        }
+
+        #welcome, #status {
+            margin-bottom: 2em;
+        }
+
+        #welcome h1 span {
+            display: block;
+            font-size: 75%;
+        }
+
+        #icon-status, #icon-book {
+            float: left;
+            height: 64px;
+            margin-right: 1em;
+            margin-top: -4px;
+            width: 64px;
+        }
+
+        #icon-book {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            #wrapper {
+                width: 80%;
+                margin: 2em auto;
+            }
+
+            #icon-book {
+                display: inline-block;
+            }
+
+            #status a, #next a {
+                display: block;
+            }
+
+            @-webkit-keyframes fade-in {
+                0% {
+                    opacity: 0;
+                }
+                100% {
+                    opacity: 1;
+                }
+            }
+            @keyframes fade-in {
+                0% {
+                    opacity: 0;
+                }
+                100% {
+                    opacity: 1;
+                }
+            }
+            .sf-toolbar {
+                opacity: 0;
+                -webkit-animation: fade-in 1s .2s forwards;
+                animation: fade-in 1s .2s forwards;
+            }
+        }
+    </style>
+{% endblock %}
